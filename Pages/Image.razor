@@ -1,0 +1,31 @@
+@page "/"
+@inject HttpClient Http
+
+<PageTitle>Pies</PageTitle>
+
+<div class="img-container" style="background-image: url('@DogImg?.message')">
+    <p class="name">Yevhenii Kolisnyk <br>92385</p>
+    <button class="btn btn-primary btn-lg py-1 px-2" @onclick="Generate">Wygenerować psa</button>
+    @if (DogImg != null)
+    {
+        <p class="link">@DogImg?.message</p>
+    }
+</div>
+
+
+@code {
+
+    private DogImage? DogImg;
+
+    private async void Generate()
+    {
+        DogImg = await Http.GetFromJsonAsync<DogImage>("https://dog.ceo/api/breeds/image/random");
+    }
+
+    public class DogImage
+    {
+        public string? message { get; set; }
+        public string? status { get; set; }
+    }
+
+}
